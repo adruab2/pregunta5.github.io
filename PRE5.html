@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro en Tiempo Real</title>
+
+</head>
+<body>
+    <h1>Foro en Tiempo Real</h1>
+
+    <div class="comment-box">
+        <h3>Publicar un comentario</h3>
+        <input type="text" id="author" placeholder="Nombre" /><br><br>
+        <textarea id="comment" placeholder="Escribe tu comentario aquí..."></textarea><br><br>
+        <button id="postCommentBtn">Publicar Comentario</button>
+    </div>
+
+    <ul id="commentList" class="comment-list"></ul>
+
+    <script>
+        let comentarios = [];
+
+        function agregarComentario(autor, texto) {
+            const nuevoComentario = {
+                autor: autor,
+                texto: texto,
+                fecha: new Date().toLocaleString()
+            };
+            comentarios.push(nuevoComentario);
+            mostrarComentarios(); 
+        }
+
+
+        function mostrarComentarios() {
+            const commentList = document.getElementById('commentList');
+            commentList.innerHTML = ''; 
+
+            comentarios.forEach(comentario => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="author">${comentario.autor} dijo:</div>
+                    <div class="text">${comentario.texto}</div>
+                    <div class="date">Publicado el: ${comentario.fecha}</div>
+                `;
+                commentList.appendChild(li);
+            });
+        }
+
+        document.getElementById('postCommentBtn').addEventListener('click', function() {
+            const autor = document.getElementById('author').value;
+            const texto = document.getElementById('comment').value;
+
+            if (autor.trim() !== '' && texto.trim() !== '') {
+                agregarComentario(autor, texto); 
+                document.getElementById('author').value = '';
+                document.getElementById('comment').value = '';
+            } else {
+                alert('Por favor, ingrese un nombre y un comentario.');
+            }
+        });
+    </script>
+
+</body>
+</html>
